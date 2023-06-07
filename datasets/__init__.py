@@ -2,8 +2,6 @@ from . import ruquad_unstandardized_1
 from .utils import ALLOWED_DATASETS
 from transformers import AutoTokenizer,AdamW,BertForQuestionAnswering
 
-
-
 def __map_name_to_module(name):
     
     if name not in ALLOWED_DATASETS:
