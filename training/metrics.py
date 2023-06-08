@@ -42,10 +42,14 @@ def __span_comparison_helper(a_gold, a_pred):
     return num_same, pred_toks, gold_toks
 
 def __recall(num_same, gold_toks):
+    if len(gold_toks) == 0 or num_same == 0:
+      return int(gold_toks == num_same)
     return 1.0 * num_same / len(gold_toks)
 
 def __precision(num_same, pred_toks):
-    return 1.0 * num_same / len(pred_toks)
+    if len(pred_toks) == 0:
+      return 0
+    return 1.0 * num_same / len(pred_toks) 
 
 def __f1(num_same, pred_toks, gold_toks):
   
@@ -71,7 +75,7 @@ def f1(a_gold, a_pred):
 def evaluate_model(model, tokenizer, val_texts, val_queries, val_answers):
   i = 0
 
-  nlp = pipeline('question-answering', model=model, tokenizer=tokenizer, device = -1)
+  nlp = pipeline('question-answering', model=model, tokenizer=tokenizer, device = 0)
 
   data = [(c, q, a) for c, q, a in zip(val_texts, val_queries, val_answers)]
 
