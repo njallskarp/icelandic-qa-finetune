@@ -1,3 +1,5 @@
+RUQUAD_LABELING = "ruquad_labeling"
+
 ALLOWED_DATASETS = [
-    "ruquad_unstandardized_1",
+    RUQUAD_LABELING,
 ]

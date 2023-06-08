@@ -1,5 +1,5 @@
 ICEBERT = "Midend/icebert"
-CONVBERT = "jonfd/convbert-base-igc-is"
+CONVBERT = "convbert"
 
 ALLOWED_MODELS = [
     ICEBERT, CONVBERT

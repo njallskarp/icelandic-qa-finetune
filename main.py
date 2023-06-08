@@ -49,11 +49,11 @@ def main():
     
     model, tokenizer = get_model(args.model_name)
     
-    train_loader, test_loader = get_data(args.datasets, model, tokenizer, args.batch_size)
+    train_loader, test_loader, test_data_raw = get_data(args.datasets, model, tokenizer, args.batch_size)
     
     wandb.init(entity = "njallis")
     
-    run_training(train_loader, test_loader, model, tokenizer, args.epochs, args.lr)
+    run_training(train_loader, test_loader, test_data_raw, model, tokenizer, args.epochs, args.lr)
     
     model.save_pretrained(args.model_out_file)
     

@@ -10,4 +10,6 @@ def load():
     
     tokenizer = AutoTokenizer.from_pretrained(BERT_MODEL)
     
+    print(f"\n\tConvbert is loaded on {device}")
+    
     return model, tokenizer

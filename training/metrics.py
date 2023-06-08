@@ -38,9 +38,6 @@ def __span_comparison_helper(a_gold, a_pred):
     pred_toks = __get_tokens(a_pred)
     common = collections.Counter(gold_toks) & collections.Counter(pred_toks)
     num_same = sum(common.values())
-    if len(gold_toks) == 0 or len(pred_toks) == 0:
-      # If either is no-answer, then F1 is 1 if they agree, 0 otherwise
-      return int(gold_toks == pred_toks), int(gold_toks == pred_toks)
     
     return num_same, pred_toks, gold_toks
 
@@ -51,9 +48,13 @@ def __precision(num_same, pred_toks):
     return 1.0 * num_same / len(pred_toks)
 
 def __f1(num_same, pred_toks, gold_toks):
+  
+    if len(gold_toks) == 0 or len(pred_toks) == 0:
+      return int(gold_toks == pred_toks)
+    
     p = __precision(num_same, pred_toks)
     r = __recall(num_same, gold_toks)
-    return 2*(p*r)/(p + r)
+    return 2*(p*r)/(p + r + 1e-8)
 
 def recall(a_gold, a_pred):
     num_same, _, gold_toks = __span_comparison_helper(a_gold, a_pred)
@@ -70,7 +71,7 @@ def f1(a_gold, a_pred):
 def evaluate_model(model, tokenizer, val_texts, val_queries, val_answers):
   i = 0
 
-  nlp = pipeline('question-answering', model=model, tokenizer=tokenizer, device = 0)
+  nlp = pipeline('question-answering', model=model, tokenizer=tokenizer, device = -1)
 
   data = [(c, q, a) for c, q, a in zip(val_texts, val_queries, val_answers)]
 
@@ -84,10 +85,10 @@ def evaluate_model(model, tokenizer, val_texts, val_queries, val_answers):
     
     answer_pred = res['answer']
     
-    num_same, pred_toks, gold_toks = __span_comparison_helper(answer, answer_pred)
+    num_same, pred_toks, gold_toks = __span_comparison_helper(answer['text'], answer_pred)
     
-    p = __precision(num_same, pred_toks)
-    r = __recall(num_same, gold_toks)
+    p  = __precision(num_same, pred_toks)
+    r  = __recall(num_same, gold_toks)
     f1 = __f1(num_same, pred_toks, gold_toks)
     
     results.append({'precision': p, 'recall': r, 'f1': f1})

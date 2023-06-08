@@ -1,5 +1,6 @@
 import torch
 import wandb 
+from tqdm import tqdm
 
 device = torch.device('cuda:0' if torch.cuda.is_available()
                       else 'cpu')
@@ -11,7 +12,8 @@ def train_epoch(model, train_loader, optim):
         
     total_loss = 0
 
-    for batch in train_loader: 
+    pbar = tqdm(train_loader)
+    for batch in pbar: 
         
         optim.zero_grad()
 
@@ -31,7 +33,10 @@ def train_epoch(model, train_loader, optim):
         # Find the total loss
         total_loss += loss.item()
         
+        pbar.set_postfix({'batch loss': loss.item()})
+        
         wandb.log({'batch_loss': loss.item()})
 
     total_loss /= len(train_loader)
+    
     return total_loss
