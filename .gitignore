@@ -1,1 +1,6 @@
 /datafiles
+.env
+.json
+.csv
+.tsv
+.zip
