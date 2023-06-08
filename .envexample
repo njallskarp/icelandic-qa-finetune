@@ -1,0 +1,9 @@
+# needed if you want to use wandb to plot your training curves
+WANDB_ENTITY=""
+
+# needed if you want to load data from labelstudio
+LABELSTUDIO_TOKEN=""
+LABELSTUDIO_SESSION=""
+
+# set the seed for reproducable results
+DEFAULT_SEED=1234
