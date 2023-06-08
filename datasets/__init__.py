@@ -4,6 +4,7 @@ from . import config
 from transformers import AutoTokenizer,AdamW,BertForQuestionAnswering
 from torch.utils.data import DataLoader, Dataset
 import torch 
+import random
 
 def __map_name_to_module(name):
     
@@ -67,14 +68,29 @@ class SquadDataset(torch.utils.data.Dataset):
     Code reused from open source colab notebook:
     https://github.com/alexaapo/BERT-based-pretrained-model-using-SQuAD-2.0-dataset/blob/main/Fine_Tuning_Bert.ipynb
     """
-    def __init__(self, encodings):
+    def __init__(self, encodings, is_train = True):
         self.encodings = encodings
+        self.is_train = is_train
 
     def __getitem__(self, idx):
-        output = {}
-        for key, val in self.encodings.items():
-            output[key] = torch.tensor(val[idx])
-        return output
+        item = {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
+
+        # 10% of the time, extend the answer span to the left
+        if random.random() < 0.1 and self.is_train:
+            # check if the answer can be extended to the left
+            if self.start_positions[idx] > 0:
+                self.start_positions[idx] -= 1
+
+        # 10% of the time, extend the answer span to the right
+        if random.random() < 0.1 and self.is_train:
+            # check if the answer can be extended to the right
+            if self.end_positions[idx] < len(item['input_ids']) - 1:
+                self.end_positions[idx] += 1
+
+        item['start_positions'] = torch.tensor(self.start_positions[idx])
+        item['end_positions'] = torch.tensor(self.end_positions[idx])
+
+        return item
 
     def __len__(self):
         return len(self.encodings.input_ids)
@@ -133,8 +149,8 @@ def get_data(dataset_names, model, tokenizer, batch_size):
     __add_token_positions(train_encodings, tokenizer, module_train_answers)
     __add_token_positions(test_encodings, tokenizer, module_test_answers) 
         
-    train_dataset = SquadDataset(train_encodings)
-    test_dataset  = SquadDataset(test_encodings)
+    train_dataset = SquadDataset(train_encodings, is_train = True)
+    test_dataset  = SquadDataset(test_encodings, is_train = False)
     
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
