@@ -95,7 +95,7 @@ def get_data(dataset_names, model, tokenizer, batch_size):
         module = __map_name_to_module(dataset_name)
         train_split, test_split = module.get_data()
         
-        print(f"\Succesfully loaded {dataset_name}:")
+        print(f"\tSuccesfully loaded {dataset_name}:")
         
         module_train_texts, module_train_questions, module_train_answers = train_split 
         module_test_texts,  module_test_questions,  module_test_answers  = test_split 
@@ -132,8 +132,8 @@ def get_data(dataset_names, model, tokenizer, batch_size):
     train_encodings  = tokenizer(train_texts, train_questions, truncation=True, padding=True)
     test_encodings   = tokenizer(test_texts, test_questions, truncation=True, padding=True)
     
-    __add_token_positions(train_encodings, tokenizer, module_train_answers)
-    __add_token_positions(test_encodings, tokenizer, module_test_answers) 
+    __add_token_positions(train_encodings, tokenizer, train_answers)
+    __add_token_positions(test_encodings, tokenizer, test_answers) 
         
     train_dataset = SquadDataset(train_encodings, is_train = True)
     test_dataset  = SquadDataset(test_encodings, is_train = False)
