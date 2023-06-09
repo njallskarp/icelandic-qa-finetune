@@ -72,6 +72,7 @@ def get_data():
             if len(p.split(" ")) > 300:
                 continue
             
+            print(record['meta'])
             answer_signature = (record['meta']['paragraph'], record['meta']['start'], record['meta']['end'])
 
             if answer_signature in seen_as:
