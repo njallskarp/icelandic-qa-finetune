@@ -1,5 +1,5 @@
 import argparse
-from datasets import ALLOWED_DATASETS, get_data
+from training_datasets import ALLOWED_DATASETS, get_data
 from models import ALLOWED_MODELS, get_model
 from training import run_training
 import config
