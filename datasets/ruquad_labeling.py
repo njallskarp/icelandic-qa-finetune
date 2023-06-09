@@ -78,6 +78,7 @@ def get_data():
 
             if answer_signature in seen_as:
                 continue
+            
             seen_as.add(answer_signature)
             
             if split == "train":
