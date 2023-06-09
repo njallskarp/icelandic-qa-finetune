@@ -3,7 +3,6 @@ import requests
 import json
 import datasets
 
-pip_datasets.
 
 def get_data():
     
