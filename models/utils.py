@@ -1,4 +1,4 @@
-ICEBERT = "Midend/icebert"
+ICEBERT = "icebert"
 CONVBERT = "convbert"
 
 ALLOWED_MODELS = [

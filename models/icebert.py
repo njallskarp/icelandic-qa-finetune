@@ -8,6 +8,6 @@ def load():
                       else 'cpu')
     model = RobertaForQuestionAnswering.from_pretrained(BERT_MODEL).to(device)
     
-    tokenizer = AutoTokenizer.from_pretrained(BERT_MODEL)
+    tokenizer = AutoTokenizer.from_pretrained(BERT_MODEL, model_max_length=512)
     
     return model, tokenizer
