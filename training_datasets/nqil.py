@@ -1,7 +1,7 @@
 import os 
 import requests
 import json
-import datasets
+from datasets import load_dataset
 
 
 def get_data():
