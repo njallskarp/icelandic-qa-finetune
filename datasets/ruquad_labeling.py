@@ -6,7 +6,7 @@ def get_data():
     
     test_texts,   train_texts = [], [] 
     test_questions, train_questions = [], [] 
-    test_answers, train_answers = [], [] 
+    test_answers, train_answers = [], []
     
     PROJECT_IDS = [1, 4, 5]
     

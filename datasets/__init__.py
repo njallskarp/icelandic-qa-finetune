@@ -74,22 +74,6 @@ class SquadDataset(torch.utils.data.Dataset):
 
     def __getitem__(self, idx):
         item = {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
-
-        # 10% of the time, extend the answer span to the left
-        if random.random() < 0.1 and self.is_train:
-            # check if the answer can be extended to the left
-            if self.start_positions[idx] > 0:
-                self.start_positions[idx] -= 1
-
-        # 10% of the time, extend the answer span to the right
-        if random.random() < 0.1 and self.is_train:
-            # check if the answer can be extended to the right
-            if self.end_positions[idx] < len(item['input_ids']) - 1:
-                self.end_positions[idx] += 1
-
-        item['start_positions'] = torch.tensor(self.start_positions[idx])
-        item['end_positions'] = torch.tensor(self.end_positions[idx])
-
         return item
 
     def __len__(self):
