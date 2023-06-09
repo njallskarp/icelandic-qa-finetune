@@ -10,6 +10,10 @@ def get_data():
     
     PROJECT_IDS = [1, 4, 5]
     
+    
+    seen_qs = set()
+    seen_as = set()
+    
     for project_id in PROJECT_IDS:
         url = f"https://labeling.gameqa.app/api/projects/{project_id}/export?exportType=JSON"
         # Define the URL and headers
@@ -39,7 +43,6 @@ def get_data():
         # Make the GET request
         response = requests.get(url, headers=headers, cookies=cookies)
 
-        seen_qs = set()
         
         # Print the response
         records = json.loads(response.text)
@@ -65,9 +68,13 @@ def get_data():
             p = record['meta']['paragraph']
             split = record['meta']['split']
             a = p[start_idx:end_idx]
+            print(record['meta'])
+            exit(0)
 
             if len(p.split(" ")) > 300:
                 continue
+            
+            hashable_answer = ()
 
             if split == "train":
                 train_texts.append(p)
