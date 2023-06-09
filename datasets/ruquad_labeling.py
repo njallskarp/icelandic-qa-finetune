@@ -68,8 +68,6 @@ def get_data():
             p = record['meta']['paragraph']
             split = record['meta']['split']
             a = p[start_idx:end_idx]
-            print(record['meta'])
-            exit(0)
 
             if len(p.split(" ")) > 300:
                 continue
