@@ -1,4 +1,4 @@
-from . import ruquad_labeling
+from . import ruquad_labeling, nqil
 from .config import ALLOWED_DATASETS
 from . import config
 from transformers import AutoTokenizer,AdamW,BertForQuestionAnswering
@@ -12,6 +12,8 @@ def __map_name_to_module(name):
         raise ModuleNotFoundError(f"The dataset requested '{name}' not found")
     if name == config.RUQUAD_LABELING:
         return ruquad_labeling
+    if name == config.NQIL:
+        return nqil
     else:
         raise ModuleNotFoundError(f"The dataset requested '{name}' not found")
 
