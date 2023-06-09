@@ -74,8 +74,12 @@ def get_data():
             if len(p.split(" ")) > 300:
                 continue
             
-            hashable_answer = ()
+            answer_signature = (record['meta']['paragraph'], record['meta']['start'], record['meta']['end'])
 
+            if answer_signature in seen_as:
+                continue
+            seen_as.add(answer_signature)
+            
             if split == "train":
                 train_texts.append(p)
                 train_questions.append(q)
