@@ -53,7 +53,7 @@ def get_data():
             if 'labels' not in annotation:
                 continue
             label = annotation['labels'][0]
-            if label != "Min Answer Span":
+            if label == "Archive":
                 continue
             start_idx = annotation['start']
             end_idx = annotation['end']
