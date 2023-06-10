@@ -9,11 +9,13 @@ def run_training(train_loader, test_loader, test_data_raw, model, tokenizer, epo
     num_training_steps = epochs * len(train_loader)  # total number of training steps 
     num_warmup_steps = num_training_steps // 10  # warmup for the first 10% of steps
     
+    optim = AdamW(model.parameters(), lr=lr)
+    
     scheduler = get_linear_schedule_with_warmup(optim, 
                                             num_warmup_steps=num_warmup_steps, 
                                             num_training_steps=num_training_steps)
     
-    optim = AdamW(model.parameters(), lr=lr)
+
     
     test_texts, test_questions, test_answers = test_data_raw
     
