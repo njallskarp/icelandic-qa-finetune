@@ -5,7 +5,7 @@ from tqdm import tqdm
 device = torch.device('cuda:0' if torch.cuda.is_available()
                       else 'cpu')
 
-def train_epoch(model, train_loader, optim):
+def train_epoch(model, train_loader, optim, scheduler):
 
     # Set model in train mode
     model.train()
@@ -30,6 +30,10 @@ def train_epoch(model, train_loader, optim):
         
         # update the weights
         optim.step()
+
+        # Update the learning rate.
+        scheduler.step()
+        
         # Find the total loss
         total_loss += loss.item()
         
