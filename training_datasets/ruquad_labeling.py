@@ -71,6 +71,11 @@ def get_data():
 
             if len(p.split(" ")) > 300:
                 continue
+            
+            answer_key = (p, start_idx, end_idx)
+            if answer_key in seen_as:
+                continue
+            seen_as.add(answer_key)
     
             if split == "train":
                 train_texts.append(p)
