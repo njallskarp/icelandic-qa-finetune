@@ -15,8 +15,6 @@ def run_training(train_loader, test_loader, test_data_raw, model, tokenizer, epo
                                             num_warmup_steps=num_warmup_steps, 
                                             num_training_steps=num_training_steps)
     
-
-    
     test_texts, test_questions, test_answers = test_data_raw
     
     for epoch in range(epochs):

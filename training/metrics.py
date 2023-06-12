@@ -99,7 +99,9 @@ def evaluate_model(model, tokenizer, val_texts, val_queries, val_answers):
   
   avg_p = np.mean([_['precision'] for _ in results])
   avg_r = np.mean([_['recall'] for _ in results])
-  avg_f = np.mean([_['f1'] for _ in results])
+  avg_f = 2 * avg_p * avg_r / (avg_p + avg_r)
   
   return ({'precision': avg_p, 'recall': avg_r, 'f1': avg_f})
+  
+  
   
