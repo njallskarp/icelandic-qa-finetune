@@ -60,7 +60,8 @@ def get_data():
                 continue
             start_idx = annotation['start']
             end_idx = annotation['end']
-
+            p = record['meta']['paragraph']
+            
             answer_key = (p, start_idx, end_idx)
             q = record['meta']['question']
             if q in seen_qs or answer_key in seen_as:
@@ -69,7 +70,6 @@ def get_data():
                 continue
             seen_qs.add(q)
             seen_as.add(answer_key)
-            p = record['meta']['paragraph']
             split = record['meta']['split']
             a = p[start_idx:end_idx]
 
