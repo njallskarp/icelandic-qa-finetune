@@ -61,10 +61,14 @@ def get_data():
             start_idx = annotation['start']
             end_idx = annotation['end']
 
+            answer_key = (p, start_idx, end_idx)
             q = record['meta']['question']
-            if q in seen_qs:
+            if q in seen_qs or answer_key in seen_as:
+                seen_qs.add(q)
+                seen_as.add(answer_key)
                 continue
             seen_qs.add(q)
+            seen_as.add(answer_key)
             p = record['meta']['paragraph']
             split = record['meta']['split']
             a = p[start_idx:end_idx]
@@ -72,10 +76,6 @@ def get_data():
             if len(p.split(" ")) > 300:
                 continue
             
-            answer_key = (p, start_idx, end_idx)
-            if answer_key in seen_as:
-                continue
-            seen_as.add(answer_key)
     
             if split == "train":
                 train_texts.append(p)
