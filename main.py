@@ -51,7 +51,7 @@ def main():
     
     train_loader, test_loader, test_data_raw = get_data(args.datasets, model, tokenizer, args.batch_size)
     
-    wandb.init(entity = "njallis")
+    wandb.init(entity = "lsig")
     
     run_training(train_loader, test_loader, test_data_raw, model, tokenizer, args.epochs, args.lr)
     
