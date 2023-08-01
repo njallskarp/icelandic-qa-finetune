@@ -2,6 +2,7 @@ import argparse
 from training_datasets import ALLOWED_DATASETS, get_data
 from models import ALLOWED_MODELS, get_model
 from training import run_training
+from config import WANDB_ENTITY
 import config
 import torch 
 import numpy as np 
@@ -51,7 +52,7 @@ def main():
     
     train_loader, test_loader, test_data_raw = get_data(args.datasets, model, tokenizer, args.batch_size)
     
-    wandb.init(entity = "lsig")
+    wandb.init(entity = WANDB_ENTITY)
     
     run_training(train_loader, test_loader, test_data_raw, model, tokenizer, args.epochs, args.lr)
     
