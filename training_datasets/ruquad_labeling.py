@@ -40,6 +40,8 @@ def get_data():
             label = annotation['labels'][0]
             if label == "Archive":
                 continue
+            if record['meta']['type'] == "ANSWERED_YES_NO":
+                continue
 
             p = record['meta']['paragraph']
             
