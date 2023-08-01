@@ -54,8 +54,8 @@ def get_data():
             split = record['meta']['split']
             a = p[start_idx:end_idx]
 
-            if len(p.split(" ")) > 300:
-                continue
+            # if len(p.split(" ")) > 300:
+            #     continue
             
     
             if split == "train":
