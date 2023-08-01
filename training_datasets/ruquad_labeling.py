@@ -41,11 +41,11 @@ def get_data():
             if label == "Archive":
                 continue
 
+            p = record['meta']['paragraph']
+            
             start_idx = record['meta']['start']
             end_idx = record['meta']['end']
 
-            p = record['meta']['paragraph']
-            
             answer_key = (p, start_idx, end_idx)
             q = record['meta']['question']
             if q in seen_qs or answer_key in seen_as:
