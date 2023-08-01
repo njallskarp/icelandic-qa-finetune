@@ -15,7 +15,7 @@ def get_data():
     
     
     seen_qs = set()
-    seen_p = set()
+    seen_as  = set()
     
     for project_id in PROJECT_IDS:
         url = f"https://labeling.gameqa.app/api/projects/{project_id}/export?exportType=JSON"
@@ -27,6 +27,7 @@ def get_data():
         
         # Print the response
         records = json.loads(response.text)
+
         for record in records:
             if len(record['annotations']) == 0:
                 continue
@@ -39,23 +40,25 @@ def get_data():
             label = annotation['labels'][0]
             if label == "Archive":
                 continue
-            p = record['meta']['paragraph']
 
-            start_idx = 0
-            end_idx = len(p)
+            start_idx = record['meta']['start']
+            end_idx = record['meta']['end']
+
+            p = record['meta']['paragraph']
             
+            answer_key = (p, start_idx, end_idx)
             q = record['meta']['question']
-            if q in seen_qs or p in seen_p:
+            if q in seen_qs or answer_key in seen_as:
                 seen_qs.add(q)
-                seen_p.add(p)
+                seen_as.add(answer_key)
                 continue
             seen_qs.add(q)
-            seen_p.add(p)
+            seen_as.add(answer_key)
             split = record['meta']['split']
             a = p[start_idx:end_idx]
 
-            # if len(p.split(" ")) > 300:
-            #     continue
+            if len(p.split(" ")) > 300:
+                continue
             
     
             if split == "train":
