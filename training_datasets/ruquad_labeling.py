@@ -2,6 +2,9 @@ import os
 import requests
 import json
 
+from dotenv import dotenv_values
+
+
 def get_data():
     
     test_texts,   train_texts = [], [] 
@@ -9,6 +12,8 @@ def get_data():
     test_answers, train_answers = [], []
     
     PROJECT_IDS = [1, 4, 5]
+    env_vars = dotenv_values()
+    api_key  = env_vars.get("LABELSTUDIO_TOKEN", "")
     
     
     seen_qs = set()

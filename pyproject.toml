@@ -10,6 +10,7 @@ packages = [{include = "finetune_icelanic_bert"}]
 python = "^3.8"
 transformers = "^4.29.2"
 tokenizers = "0.11.1"
+python-dotenv = "^1.0.0"
 
 
 [build-system]
