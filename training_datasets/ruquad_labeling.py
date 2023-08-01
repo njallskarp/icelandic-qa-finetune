@@ -2,7 +2,7 @@ import os
 import requests
 import json
 
-from dotenv import dotenv_values
+from config import LABELSTUDIO_TOKEN
 
 
 def get_data():
@@ -12,8 +12,6 @@ def get_data():
     test_answers, train_answers = [], []
     
     PROJECT_IDS = [1, 4, 5]
-    env_vars = dotenv_values()
-    api_key  = env_vars.get("LABELSTUDIO_TOKEN", "")
     
     
     seen_qs = set()
@@ -22,7 +20,7 @@ def get_data():
     for project_id in PROJECT_IDS:
         url = f"https://labeling.gameqa.app/api/projects/{project_id}/export?exportType=JSON"
         # Define the URL and headers
-        headers = {"Authorization": f"Token {api_key}"}
+        headers = {"Authorization": f"Token {LABELSTUDIO_TOKEN}"}
         # Make the GET request
         response = requests.get(url, headers=headers)
 
