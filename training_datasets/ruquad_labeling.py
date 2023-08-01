@@ -15,7 +15,7 @@ def get_data():
     
     
     seen_qs = set()
-    seen_as = set()
+    seen_p = set()
     
     for project_id in PROJECT_IDS:
         url = f"https://labeling.gameqa.app/api/projects/{project_id}/export?exportType=JSON"
@@ -44,14 +44,13 @@ def get_data():
             start_idx = 0
             end_idx = len(p)
             
-            answer_key = (p, start_idx, end_idx)
             q = record['meta']['question']
-            if q in seen_qs or answer_key in seen_as:
+            if q in seen_qs or p in seen_p:
                 seen_qs.add(q)
-                seen_as.add(answer_key)
+                seen_p.add(p)
                 continue
             seen_qs.add(q)
-            seen_as.add(answer_key)
+            seen_p.add(p)
             split = record['meta']['split']
             a = p[start_idx:end_idx]
 
