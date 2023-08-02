@@ -23,6 +23,7 @@ def get_data():
         headers = {"Authorization": f"Token {LABELSTUDIO_TOKEN}"}
         # Make the GET request
         response = requests.get(url, headers=headers)
+        response.encoding = "utf-8"
 
         
         # Print the response
