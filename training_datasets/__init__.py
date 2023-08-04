@@ -1,10 +1,8 @@
 from . import ruquad_labeling, nqil
 from .config import ALLOWED_DATASETS
 from . import config
-from transformers import AutoTokenizer,AdamW,BertForQuestionAnswering
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader
 import torch 
-import random
 
 def __map_name_to_module(name):
     
@@ -81,7 +79,7 @@ class SquadDataset(torch.utils.data.Dataset):
     def __len__(self):
         return len(self.encodings.input_ids)
 
-def get_data(dataset_names, model, tokenizer, batch_size):
+def get_data(dataset_names, tokenizer, batch_size, sample_size = 0):
     
     train_texts, train_questions, train_answers = [], [], []
     test_texts,  test_questions,  test_answers  = [], [], []
@@ -107,6 +105,13 @@ def get_data(dataset_names, model, tokenizer, batch_size):
         test_texts.extend(module_test_texts)
         test_questions.extend(module_test_questions)
         test_answers.extend(module_test_answers)
+
+        if sample_size == 0: 
+            sample_size = len(train_questions)
+
+        train_questions = train_questions[:sample_size]
+        train_answers = train_answers[:sample_size]
+        train_texts = train_texts[:sample_size]
         
         print(f"\t\tTrain texts {len(module_train_texts)}:")
         print(f"\t\tTrain questions {len(module_train_questions)}:")

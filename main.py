@@ -2,8 +2,7 @@ import argparse
 from training_datasets import ALLOWED_DATASETS, get_data
 from models import ALLOWED_MODELS, get_model
 from training import run_training
-from config import WANDB_ENTITY
-import config
+from config import WANDB_ENTITY, DEFAULT_SEED
 import torch 
 import numpy as np 
 import random 
@@ -29,7 +28,8 @@ parser.add_argument('--lr', type=float, default=5e-5, help='Learning rate for th
 parser.add_argument('--epochs', type=int, default=3, help='Number of epochs for training')
 parser.add_argument('--batch_size', type=int, default=8, help='Batch size for training')
 parser.add_argument('--model_out_file', type=str,  help='Output path for model', required=True)
-parser.add_argument('--seed', type=int,  help='Seed for setup', required=False, default = config.DEFAULT_SEED)
+parser.add_argument('--sample_size', type=int,  help='Training data sample size')
+parser.add_argument('--seed', type=int,  help='Seed for setup', required=False, default=DEFAULT_SEED)
 
 def set_seed(seed):
     
@@ -50,7 +50,7 @@ def main():
     
     model, tokenizer = get_model(args.model_name)
     
-    train_loader, test_loader, test_data_raw = get_data(args.datasets, model, tokenizer, args.batch_size)
+    train_loader, test_loader, test_data_raw = get_data(args.datasets, model, tokenizer, args.batch_size, args.sample_size)
     
     wandb.init(entity = WANDB_ENTITY)
     
