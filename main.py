@@ -50,7 +50,7 @@ def main():
     
     model, tokenizer = get_model(args.model_name)
     
-    train_loader, test_loader, test_data_raw = get_data(args.datasets, model, tokenizer, args.batch_size, args.sample_size)
+    train_loader, test_loader, test_data_raw = get_data(args.datasets, tokenizer, args.batch_size, args.sample_size)
     
     wandb.init(entity = WANDB_ENTITY)
     
