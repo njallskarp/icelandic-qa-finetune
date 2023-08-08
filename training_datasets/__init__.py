@@ -1,3 +1,4 @@
+import random
 from . import ruquad_labeling, nqil
 from .config import ALLOWED_DATASETS
 from . import config
@@ -109,9 +110,6 @@ def get_data(dataset_names, tokenizer, batch_size, sample_size = 0):
         if sample_size == 0: 
             sample_size = len(train_questions)
 
-        train_questions = train_questions[:sample_size]
-        train_answers = train_answers[:sample_size]
-        train_texts = train_texts[:sample_size]
         
         print(f"\t\tTrain texts {len(module_train_texts)}:")
         print(f"\t\tTrain questions {len(module_train_questions)}:")
@@ -124,6 +122,17 @@ def get_data(dataset_names, tokenizer, batch_size, sample_size = 0):
         __correct_span_errors(module_train_answers, module_train_texts)
         __correct_span_errors(module_test_answers, module_test_texts)
         
+    num = random.randint(0,100000)
+
+    random.Random(num).shuffle(train_questions)
+    random.Random(num).shuffle(train_answers)
+    random.Random(num).shuffle(train_texts)
+
+    train_questions = train_questions[:sample_size]
+    train_answers = train_answers[:sample_size]
+    train_texts = train_texts[:sample_size]
+
+
     print("\n\t\tTotal combined statistics")
         
     print(f"\t\tTrain texts {len(train_texts)}:")
