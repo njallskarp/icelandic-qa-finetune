@@ -41,14 +41,10 @@ def get_data():
             label = annotation['labels'][0]
             if label == "Archive":
                 continue
-            if record['meta']['type'] == "ANSWERED_YES_NO":
-                continue
-
+            start_idx = annotation['start']
+            end_idx = annotation['end']
             p = record['meta']['paragraph']
             
-            start_idx = record['meta']['start']
-            end_idx = record['meta']['end']
-
             answer_key = (p, start_idx, end_idx)
             q = record['meta']['question']
             if q in seen_qs or answer_key in seen_as:
@@ -80,7 +76,7 @@ def get_data():
                     'answer_start': start_idx,
                     'text':         a,
                 })
-
+        
     
     DEST = "./datafiles/ruquad_1_unstandardized.zip"
     URL  = "https://repository.clarin.is/repository/xmlui/bitstream/handle/20.500.12537/311"
