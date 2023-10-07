@@ -30,7 +30,6 @@ def get_data():
         records = json.loads(response.text)
 
         for record in records:
-            print(record)
             if len(record['annotations']) == 0:
                 continue
             annotation = record["annotations"][0]['result']
