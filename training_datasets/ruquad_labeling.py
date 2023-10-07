@@ -28,7 +28,6 @@ def get_data():
         
         # Print the response
         records = json.loads(response.text)
-        print(records)
 
         for record in records:
             print(record)
