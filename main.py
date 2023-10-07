@@ -53,7 +53,7 @@ def main():
 
     run_name = f"standardized-{args.sample_size}"
     
-    wandb.init(entity = WANDB_ENTITY, name = run_name)
+    wandb.init(entity = WANDB_ENTITY, name = run_name, project="spanningthecap",)
     
     run_training(train_loader, test_loader, test_data_raw, model, tokenizer, args.epochs, args.lr, run_name)
     
