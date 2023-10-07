@@ -27,7 +27,6 @@ parser.add_argument('--datasets', type=check_dataset_names, required=True, nargs
 parser.add_argument('--lr', type=float, default=5e-5, help='Learning rate for the optimizer')
 parser.add_argument('--epochs', type=int, default=3, help='Number of epochs for training')
 parser.add_argument('--batch_size', type=int, default=8, help='Batch size for training')
-parser.add_argument('--model_out_file', type=str,  help='Output path for model', required=True)
 parser.add_argument('--sample_size', type=int,  help='Training data sample size')
 parser.add_argument('--seed', type=int,  help='Seed for setup', required=False, default=DEFAULT_SEED)
 
@@ -51,12 +50,13 @@ def main():
     model, tokenizer = get_model(args.model_name)
     
     train_loader, test_loader, test_data_raw = get_data(args.datasets, tokenizer, args.batch_size, args.sample_size)
+
+    run_name = f"standardized-{args.sample_size}"
     
-    wandb.init(entity = WANDB_ENTITY)
+    wandb.init(entity = WANDB_ENTITY, name = run_name)
     
-    run_training(train_loader, test_loader, test_data_raw, model, tokenizer, args.epochs, args.lr)
+    run_training(train_loader, test_loader, test_data_raw, model, tokenizer, args.epochs, args.lr, run_name)
     
-    model.save_pretrained(args.model_out_file)
     
     
 
