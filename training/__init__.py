@@ -29,7 +29,7 @@ def run_training(train_loader, test_loader, test_data_raw, model, tokenizer, epo
         f1_score = metrics_dict['f1']
         if f1_score > highest_f1:
             highest_f1 = f1_score
-            model.save_pretrained(run_name + "_f1_" + round(f1_score, 4))
+            model.save_pretrained(run_name + "_f1_" + str(round(f1_score, 4)))
 
 
         wandb.log({**loss_dict, **metrics_dict})
