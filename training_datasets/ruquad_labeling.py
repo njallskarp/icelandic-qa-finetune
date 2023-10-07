@@ -1,10 +1,7 @@
 import os 
 import requests
 import json
-
 from config import LABELSTUDIO_TOKEN
-
-
 def get_data():
     
     test_texts,   train_texts = [], [] 
@@ -24,11 +21,9 @@ def get_data():
         # Make the GET request
         response = requests.get(url, headers=headers)
         response.encoding = "utf-8"
-
         
         # Print the response
         records = json.loads(response.text)
-
         for record in records:
             if len(record['annotations']) == 0:
                 continue
@@ -41,10 +36,14 @@ def get_data():
             label = annotation['labels'][0]
             if label == "Archive":
                 continue
-            start_idx = annotation['start']
-            end_idx = annotation['end']
+            if record['meta']['type'] == "ANSWERED_YES_NO":
+                continue
+
             p = record['meta']['paragraph']
-            
+
+            start_idx = record['meta']['start']
+            end_idx = record['meta']['end']
+
             answer_key = (p, start_idx, end_idx)
             q = record['meta']['question']
             if q in seen_qs or answer_key in seen_as:
@@ -55,7 +54,6 @@ def get_data():
             seen_as.add(answer_key)
             split = record['meta']['split']
             a = p[start_idx:end_idx]
-
             if len(p.split(" ")) > 300:
                 continue
             
@@ -76,8 +74,8 @@ def get_data():
                     'answer_start': start_idx,
                     'text':         a,
                 })
-        
-    
+
+
     DEST = "./datafiles/ruquad_1_unstandardized.zip"
     URL  = "https://repository.clarin.is/repository/xmlui/bitstream/handle/20.500.12537/311"
     
